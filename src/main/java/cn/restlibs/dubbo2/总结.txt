@@ -1,0 +1,138 @@
+
+
+	 生成service代理对象
+
+	   Object obj = Proxy.newProxyInstance(MyClient.class.getClassLoader(), new Class[]{ManagerService.class}, new InvocationHandler() { //服务对象接口
+
+			@Override
+			public Object invoke(Object proxy, Method method, Object[] args)
+					throws Throwable {
+
+
+					final Socket socket1=new Socket();
+					socket1.setSoTimeout(2*1000);
+					socket1.setKeepAlive(true);
+					SocketAddress sa=new InetSocketAddress("127.0.0.1", 8090); //连接远程socket
+					socket1.connect(sa, 1000*2); //握手成功
+				//在3队列个队列里，就是连接上了  true
+					final InputStream inputStream = socket1.getInputStream();
+				 	final OutputStream outputStream=socket1.getOutputStream();
+
+
+					Callback callback=new Callback(); //发送接口名字 接口方法名字 参数
+
+					callback.setMethod(method.toString());
+					callback.setArgs(args);
+					callback.setInterfaceName(ManagerService.class.getName());
+
+			               PrintStream writer = new PrintStream(outputStream);
+					ByteArrayOutputStream os = new ByteArrayOutputStream();
+					Hessian2Output h2o = new Hessian2Output(os);
+					h2o.startMessage();
+					h2o.writeObject(callback);   //发送要调用的信息。
+					h2o.writeString("I am client.");
+					h2o.completeMessage();
+					h2o.close();
+
+					byte[] buffer = os.toByteArray();
+					os.close();
+
+			           writer.write(buffer);
+				    writer.flush();
+				    socket1.shutdownOutput();
+
+
+				    Hessian2Input h2i = new Hessian2Input(inputStream);   //读取返回结果对象
+
+			        h2i.startMessage();
+			        Person person = (Person) h2i.readObject();
+
+			        h2i.completeMessage();
+			        h2i.close();
+
+			        inputStream.close();
+
+
+				return person;
+			}
+		});
+
+
+	    ManagerService   managerService=(ManagerService)obj;     //代理对象生成完毕
+
+
+
+	    服务端
+
+
+	    	while (true) {
+
+				client = server.accept();  //accept()从队列中取出连接数
+				System.out.println("第"+i);
+
+				final InputStream inputStream = client.getInputStream();
+			 	final OutputStream outputStream=client.getOutputStream();
+
+			    Hessian2Input h2i = new Hessian2Input(inputStream);
+
+		        h2i.startMessage();
+
+
+		    	Callback callback = (Callback) h2i.readObject();   //接受要调用的对象信息
+		        System.out.println("receive:" + callback.toString());
+		        System.out.println("receive:" + callback.getInterfaceName()+" "+ callback.getMethod());
+
+		        System.out.println(h2i.readString());
+		        h2i.completeMessage();
+		        h2i.close();
+
+
+		        String interfaceName = callback.getInterfaceName();    //接口名字
+		        Object[] args2 = callback.getArgs();    //方法参数的参数对象
+			//	Method method = callback.getMethod();
+		        String methodAll=callback.getMethod();    //方法信息
+
+
+		       // public abstract com.dubbo.common.Person com.dubbo.common.ManagerService.eat(com.dubbo.common.Apple)
+		        String[] split = methodAll.split(" ");
+		        String returntype = split[2];
+		        String methodnames = split[3];
+		        String[] split2 = methodnames.split("\\(");
+		        String method1 = split2[0];
+		        int lastIndexOf = method1.lastIndexOf(".");
+		        String methodname = method1.substring(lastIndexOf+1, method1.length());
+		        String artypes = split2[1];
+		        String arytype = artypes.substring(0, artypes.length()-1);
+		        interfaceName=interfaceName+"Impl";
+
+				Object o = Class.forName(interfaceName).newInstance();   //反射生成接口实现类
+
+				Method method = o.getClass().getMethod(methodname,	Class.forName(arytype)); //反射生成实现类的方法对象。
+
+				Object result = method.invoke(o, args2); //设置参数对象。调用完成。
+
+			    PrintStream writer = new PrintStream(outputStream);
+
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				Hessian2Output h2o = new Hessian2Output(os);
+				h2o.startMessage();
+				h2o.writeObject(result);         //把对象返回。
+				h2o.writeString("I am server.");
+				h2o.completeMessage();
+				h2o.close();
+ 
+				byte[] buffer = os.toByteArray();
+				os.close();
+
+		        writer.write(buffer);
+			     writer.flush();
+				 writer.close();
+
+		           
+		        i++;
+			}
+			
+		} catch (Exception e) {
+	        
+			e.printStackTrace();
+		}
