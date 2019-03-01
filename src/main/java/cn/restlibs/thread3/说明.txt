@@ -1,0 +1,19 @@
+
+
+   1 RequestThread 相当于 tomcat启动一个请求线程
+
+   2 ServletDo 相等于过滤器 servlet
+
+   3 Teacher相当于  过滤器的对象属性 调度器  单例
+
+
+   4 User相当于 过滤器方法中的多例对象request action  actionContext 值栈等
+
+
+   每次启动一个线程 RequestThread 调用过滤器 ServletDo 单例 方法  ,并传参多例对象 request
+
+   ServletDo 单例 有单例属性  Teacher
+
+   ServletDo  单例方法会产生多例对象User代理对象    action  actionContext 值栈等
+
+   
