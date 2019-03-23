@@ -45,7 +45,8 @@ public class NioServer {
                         buf.flip();
                         byte[] bytes = new byte[1024];
                         buf.get(bytes, 0, len);
-                        System.out.println(new String(bytes, 0, len));
+                        String ss=new String(bytes, 0, len);
+                        System.out.println(ss);
                     }
                 }
                 //11. 移除当前key

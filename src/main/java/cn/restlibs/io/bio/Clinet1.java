@@ -16,11 +16,11 @@ public class Clinet1 {
 
             out.write("客户端 sender say hello socket to 服务端".getBytes()); //不写对方会阻塞
             out.flush();
-         //   client.shutdownOutput();  //注释后双方都等待输出
+            client.shutdownOutput();  //注释后双方都等待输出 打开表示关闭 服务器收到 -1
 
             byte[] buf = new byte[128];
             int size = 0;
-            while ((size = input.read(buf)) != -1) {  //没有数据阻塞  不关闭阻塞
+            while ((size = input.read(buf)) != -1) {  //没有数据阻塞  不关闭阻塞      out.close(); //不关闭对面能收到。但是一直等待。
                 System.out.print(new String(buf,0,buf.length));
             }
 

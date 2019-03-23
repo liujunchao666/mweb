@@ -153,10 +153,11 @@
 		  <version>2.0.13</version>
 	  </dependency>
 
+
 	  <dependency>
 		  <groupId>org.apache.tomcat</groupId>
 		  <artifactId>tomcat-catalina</artifactId>
-		  <version>8.5.33</version>
+		  <version>8.5.38</version>
 		  <scope>provided</scope>
 	  </dependency>
 
@@ -177,7 +178,7 @@
   	<build>
 		<finalName>mweb</finalName>
 		<plugins>
-			<plugin>
+		<!--	<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
@@ -188,16 +189,16 @@
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>
 				</configuration>
-			</plugin>
+			</plugin>-->
 			
-	        	<plugin>
+	        	<!--<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
 					<port>8080</port>
 					<path>/mweb</path>
 				</configuration>
-			</plugin>
+			</plugin>-->
 		</plugins>
 	</build>
 	
