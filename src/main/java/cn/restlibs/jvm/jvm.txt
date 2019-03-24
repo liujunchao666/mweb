@@ -1,1 +1,27 @@
-CompressedClassSpaceSize
+top  找到进程
+
+top -h -p pid 找到cpu 内存最大的线程
+
+转换为16进制
+
+jstack -l pid  > d://dd.txt
+
+查找pid 16进制线程
+
+集合堆内存分析 eclipse memory analsy
+
+
+gc root  静态变量 Java线程当前活跃的栈帧里指向GC堆里的对象的引用
+内存泄漏 对象可达，存在gc root 引用,但是没有使用
+
+堆溢出----->内存泄漏，不能回收
+栈深度------>递归 纵向无法分配栈帧
+栈线程不可申请 --->线程太多。1个线程1m。横向无法分配线程
+元空间溢出--->类方法区
+
+
+2g进程=堆内存+栈内存 +直接内存+元数据 吗
+堆内存 xms  1.6g
+栈内存 xss  1m 每个线程
+直接内存 Direct Memory
+元数据

@@ -15,11 +15,11 @@ public class OutMemoryError {
     // gc 回收不了 堆导致jvm奔溃
 //-XX:+HeapDumpOnOutOfMemoryError -Xms20m -Xmx20m  java.lang.OutOfMemoryError: Java heap space
 
- /* public static void main(String[] args) {
+ public static void main(String[] args) {
         List li=new ArrayList<UserVO>();       //gc 回收不了  是gc root
         while(true){
             try {
-                Thread.sleep(1);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -29,7 +29,7 @@ public class OutMemoryError {
             li.add(uservo);
         }
     }
-*/
+
 
     //gc 可以回收
 /*
@@ -189,7 +189,7 @@ public class OutMemoryError {
     class space    used 379K, capacity 388K, committed 512K, reserved 1048576K
 */
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
 
         String sss3=new String("hellojvm").intern();
 
@@ -199,7 +199,7 @@ public class OutMemoryError {
             e.printStackTrace();
         }
     }
-
+*/
 
     //方法区。jdk8中元数据。没有永久代  -XX:MaxPermSize=5M  失效
    // -Xms20m -Xmx20m   -XX:MaxMetaspaceSize=24m -XX:+PrintGCDetails
