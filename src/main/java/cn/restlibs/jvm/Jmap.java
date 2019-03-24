@@ -75,7 +75,7 @@ public class Jmap {
 */
 
 
- //jmp -dump pid
+ //jmap -dump:format=b,file=d://dump.txt 80016
 
-
+//jmap -dump:format=b,file=d://dump23.txt 80016
 }
