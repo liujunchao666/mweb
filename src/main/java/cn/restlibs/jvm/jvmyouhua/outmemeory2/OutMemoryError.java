@@ -1,4 +1,4 @@
-package cn.restlibs.jvm.outmemeory2;
+package cn.restlibs.jvm.jvmyouhua.outmemeory2;
 
 public class OutMemoryError {
 

@@ -1,10 +1,4 @@
-package cn.restlibs.jvm;
-
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-import org.apache.catalina.Globals;
-import org.springframework.asm.commons.Method;
+package cn.restlibs.jvm.jvmyouhua;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +9,7 @@ public class OutMemoryError {
     // gc 回收不了 堆导致jvm奔溃
 //-XX:+HeapDumpOnOutOfMemoryError -Xms20m -Xmx20m  java.lang.OutOfMemoryError: Java heap space
 
- public static void main(String[] args) {
+/* public static void main(String[] args) {
         List li=new ArrayList<UserVO>();       //gc 回收不了  是gc root
         while(true){
             try {
@@ -28,7 +22,7 @@ public class OutMemoryError {
             uservo.setBytes(new byte[1024*1024]);
             li.add(uservo);
         }
-    }
+    }*/
 
 
     //gc 可以回收
@@ -56,7 +50,7 @@ public class OutMemoryError {
 
 
   //-Xss256k 影响不大
-    /* private int stackLength = 1;
+  /*  private int stackLength = 1;
     public void stackLeak() {
         stackLength++;
         stackLeak();
@@ -70,12 +64,12 @@ public class OutMemoryError {
             System.out.println("stack length:" + oom.stackLength);
             throw e;
         }
-    }
+    }*/
 
-   Exception in thread "main" java.lang.StackOverflowError
+  /* Exception in thread "main" java.lang.StackOverflowError
     stack length:19569  -Xss1m
-    stack length:2486   -Xss256k
-*/
+    stack length:2486   -Xss256k*/
+
 
 
 
@@ -249,4 +243,75 @@ public class OutMemoryError {
         }
     }
 */
+
+// -Xms20m -Xmx20m   -XX:MaxMetaspaceSize=30m -XX:+PrintGCDetails  -XX:+HeapDumpOnOutOfMemoryError -Xss256k -XX:HeapDumpPath=E:\Java\dump
+int stackLength=0;
+    public void stackLeak(int i,double d,long l, String s,int stackLengths) {
+        stackLength++;
+        int ii=1;
+        double dd=1;
+        long ll=1;
+        String ss="";
+        stackLeak(ii,dd,ll,ss,stackLength);
+    }
+
+    public static void main(String[] args) throws Throwable {
+        OutMemoryError oom = new OutMemoryError();
+        try {
+            double i1=1;
+            double i0=1;
+            double i2=1;
+            double i3=1;
+            double i4=1;
+            double i5=1;
+            double i6=1;
+            double i7=1;
+            double i8=1;
+
+            double i9=1;
+            double i10=1;
+            double i12=1;
+            double i13=1;
+            double i14=1;
+            double i15=1;
+            double i16=1;
+            double i17=1;
+            double i18=1;
+            double i19=1;
+
+            double i20=1;
+            double i22=1;
+            double i23=1;
+            double i24=1;
+            double i25=1;
+            double i26=1;
+            double i27=1;
+            double i28=1;
+            double i29=1;
+
+
+            double i30=1;
+            double i32=1;
+            double i33=1;
+            double i34=1;
+            double i35=1;
+            double i36=1;
+            double i37=1;
+            double i38=1;
+            double i39=1;
+
+            int ii=1;
+            double dd=1;
+            long ll=1;
+            String ss="";
+            oom.stackLeak(ii,dd,ll,ss,0);
+        } catch (Throwable e) {
+            System.out.println("stack length:" + oom.stackLength);
+            throw e;
+        }
+
+        Thread.sleep(1000000);
+    }
+
+
 }

@@ -1,0 +1,133 @@
+top  找到进程
+
+top -h -p pid 找到cpu 内存最大的线程
+
+转换为16进制
+
+jstack -l pid  > d://dd.txt
+
+查找pid 16进制线程
+
+集合堆内存分析 eclipse memory analsy
+
+
+gc root  静态变量 Java线程当前活跃的栈帧里指向GC堆里的对象的引用
+内存泄漏 对象可达，存在gc root 引用,但是没有使用
+
+堆溢出----->内存泄漏，不能回收
+栈深度------>递归 纵向无法分配栈帧
+栈线程不可申请 --->线程太多。1个线程1m。横向无法分配线程
+元空间溢出--->类方法区
+
+
+2g进程=堆内存+栈内存 +直接内存+元数据 吗
+堆内存 xms  1.6g
+栈内存 xss  1m 每个线程
+直接内存 Direct Memory
+元数据
+
+
+jmap -heap 3216
+Attaching to process ID 3216, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 25.161-b12
+
+using thread-local object allocation.
+Parallel GC with 8 thread(s)
+
+Heap Configuration:
+   MinHeapFreeRatio         = 0
+   MaxHeapFreeRatio         = 100
+   MaxHeapSize              = 2122317824 (2024.0MB)
+   NewSize                  = 44564480 (42.5MB)
+   MaxNewSize               = 707264512 (674.5MB)
+   OldSize                  = 89653248 (85.5MB)
+   NewRatio                 = 2
+   SurvivorRatio            = 8
+   MetaspaceSize            = 21807104 (20.796875MB)
+   CompressedClassSpaceSize = 1073741824 (1024.0MB)
+   MaxMetaspaceSize         = 17592186044415 MB
+   G1HeapRegionSize         = 0 (0.0MB)
+
+Heap Usage:
+PS Young Generation
+Eden Space:
+   capacity = 579338240 (552.5MB)
+   used     = 363563512 (346.72118377685547MB)
+   free     = 215774728 (205.77881622314453MB)
+   62.754965389476105% used
+From Space:
+   capacity = 61341696 (58.5MB)
+   used     = 8123696 (7.7473602294921875MB)
+   free     = 53218000 (50.75263977050781MB)
+   13.243350819644766% used
+To Space:
+   capacity = 60293120 (57.5MB)
+   used     = 0 (0.0MB)
+   free     = 60293120 (57.5MB)
+   0.0% used
+PS Old Generation
+   capacity = 162529280 (155.0MB)
+   used     = 70268104 (67.01288604736328MB)
+   free     = 92261176 (87.98711395263672MB)
+   43.23412003055696% used
+
+35042 interned Strings occupying 3827040 bytes.
+
+ljch@DESKTOP-UEPSA98 MINGW32 /d/gitdalin3/xc_sale (feature_20190318_daoshi_weixin)
+$
+
+ljch@DESKTOP-UEPSA98 MINGW32 /d/gitdalin3/xc_sale (feature_20190318_daoshi_weixin)
+$ jmap -dump:format=b,file=d://dumpsale.txt 3216
+Dumping heap to D:\dumpsale.txt ...
+Heap dump file created
+
+ljch@DESKTOP-UEPSA98 MINGW32 /d/gitdalin3/xc_sale (feature_20190318_daoshi_weixin)
+$ jmap -heap 3216
+Attaching to process ID 3216, please wait...
+Debugger attached successfully.
+Server compiler detected.
+JVM version is 25.161-b12
+
+using thread-local object allocation.
+Parallel GC with 8 thread(s)
+
+Heap Configuration:
+   MinHeapFreeRatio         = 0
+   MaxHeapFreeRatio         = 100
+   MaxHeapSize              = 2122317824 (2024.0MB)
+   NewSize                  = 44564480 (42.5MB)
+   MaxNewSize               = 707264512 (674.5MB)
+   OldSize                  = 89653248 (85.5MB)
+   NewRatio                 = 2
+   SurvivorRatio            = 8
+   MetaspaceSize            = 21807104 (20.796875MB)
+   CompressedClassSpaceSize = 1073741824 (1024.0MB)
+   MaxMetaspaceSize         = 17592186044415 MB
+   G1HeapRegionSize         = 0 (0.0MB)
+
+Heap Usage:
+PS Young Generation
+Eden Space:
+   capacity = 554172416 (528.5MB)
+   used     = 21584616 (20.584693908691406MB)
+   free     = 532587800 (507.9153060913086MB)
+   3.8949278918999823% used
+From Space:
+   capacity = 16252928 (15.5MB)
+   used     = 16149136 (15.401016235351562MB)
+   free     = 103792 (0.0989837646484375MB)
+   99.36139506678427% used
+To Space:
+   capacity = 57671680 (55.0MB)
+   used     = 0 (0.0MB)
+   free     = 57671680 (55.0MB)
+   0.0% used
+PS Old Generation
+   capacity = 162529280 (155.0MB)
+   used     = 70276296 (67.02069854736328MB)
+   free     = 92252984 (87.97930145263672MB)
+   43.2391603531376% used
+
+35662 interned Strings occupying 3881768 bytes.

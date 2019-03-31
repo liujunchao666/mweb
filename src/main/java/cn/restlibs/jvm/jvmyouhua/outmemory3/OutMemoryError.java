@@ -1,9 +1,8 @@
-package cn.restlibs.jvm.outmemory1;
+package cn.restlibs.jvm.jvmyouhua.outmemory3;
 
-import cn.restlibs.jvm.UserVO;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
 public class OutMemoryError {
 
@@ -11,7 +10,7 @@ public class OutMemoryError {
     // gc 回收不了 堆导致jvm奔溃
 //-XX:+HeapDumpOnOutOfMemoryError -Xms20m -Xmx20m  java.lang.OutOfMemoryError: Java heap space
 
-  public static void main(String[] args) {
+ /* public static void main(String[] args) {
         List li=new ArrayList<UserVO>();       //gc 回收不了  是gc root
         while(true){
             try {
@@ -25,7 +24,7 @@ public class OutMemoryError {
             li.add(uservo);
         }
     }
-
+*/
 
     //gc 可以回收
 /*
@@ -52,7 +51,7 @@ public class OutMemoryError {
 
 
   //-Xss256k 影响不大
-  /*   private int stackLength = 1;
+    /* private int stackLength = 1;
     public void stackLeak() {
         stackLength++;
         stackLeak();
@@ -85,7 +84,7 @@ public class OutMemoryError {
     //java.lang.OutOfMemoryError: Java heap space  堆设置太小。先报堆了。
     // -Xss500M  堆不设置。线程太多。线程都阻塞。不能开新的线程。程序假死。 java.lang.OutOfMemoryError: unable to create new native thread
     //  Exception in thread "main" java.lang.OutOfMemoryError: unable to create new native thread 49441
-    /*private void dontStop() {
+/*   private void dontStop() {
         count++;
         System.out.println(count);
         try {
@@ -136,7 +135,8 @@ public class OutMemoryError {
 
     //方法区。jdk8中元数据。没有永久代  -XX:MaxPermSize=5M  失效
    // -Xms20m -Xmx20m   -XX:MaxMetaspaceSize=24m -XX:+PrintGCDetails
-/*    public static void main(String[] args) {
+    //    // -Xms20m -Xmx20m   -XX:MaxMetaspaceSize=30m -XX:+PrintGCDetails  -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=E:\Java\dump
+   public static void main(String[] args) {
        int i=0;
         while (true) {
             i++;
@@ -159,10 +159,13 @@ public class OutMemoryError {
         }
 
 
-    }*/
+    }
 
-
-    //Caused by: java.lang.OutOfMemoryError: Metaspace
+/*
+    Metaspace       used 30145K, capacity 30292K, committed 30720K, reserved 1077248K    方法code
+    class space    used 2646K, capacity 2701K, committed 2816K, reserved 1048576K         class用了2兆
+    Caused by: java.lang.OutOfMemoryError: Metaspace
+*/
 
 
 

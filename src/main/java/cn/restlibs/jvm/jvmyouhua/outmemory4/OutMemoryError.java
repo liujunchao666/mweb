@@ -1,8 +1,7 @@
-package cn.restlibs.jvm.outmemory3;
+package cn.restlibs.jvm.jvmyouhua.outmemory4;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OutMemoryError {
 
@@ -121,22 +120,46 @@ public class OutMemoryError {
 
     //   jdk8以前 方法区就是永久代。字符串放在永久代中
 //    之后 方法区是元空间。不在jvm 字符串放在堆中 -XX:MaxPermSize=5M  失效
-
- /*   public static void main(String[] args) {
+// -Xms20m -Xmx20m   -XX:MaxMetaspaceSize=30m -XX:+PrintGCDetails  -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=E:\Java\dump
+  public static void main(String[] args) {
         // 使用List保持着常量池引用，避免Full GC回收常量池行为
         List<String> list = new ArrayList<String>();
         // 10MB的PermSize在integer范围内足够产生OOM了
         int i = 0;
         while (true) {
-            list.add(String.valueOf(i++));
+            list.add(String.valueOf("hello jvm "+i++).intern());
         }
-    }*/
+    }
+
+
+/*
+    Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+    at java.util.Arrays.copyOf(Arrays.java:3210)
+    at java.util.Arrays.copyOf(Arrays.java:3181)
+    at java.util.ArrayList.grow(ArrayList.java:265)
+    at java.util.ArrayList.ensureExplicitCapacity(ArrayList.java:239)
+    at java.util.ArrayList.ensureCapacityInternal(ArrayList.java:231)
+    at java.util.ArrayList.add(ArrayList.java:462)
+    at cn.restlibs.jvm.OutMemoryError.main(OutMemoryError.java:136)
+    Heap dump file created [24463871 bytes in 0.101 secs]
+    Heap
+    PSYoungGen      total 6144K, used 5560K [0x00000000ff980000, 0x0000000100000000, 0x0000000100000000)
+    eden space 5632K, 98% used [0x00000000ff980000,0x00000000ffeee208,0x00000000fff00000)
+    from space 512K, 0% used [0x00000000fff80000,0x00000000fff80000,0x0000000100000000)
+    to   space 512K, 0% used [0x00000000fff00000,0x00000000fff00000,0x00000000fff80000)
+    ParOldGen       total 13824K, used 13377K [0x00000000fec00000, 0x00000000ff980000, 0x00000000ff980000)
+    object space 13824K, 96% used [0x00000000fec00000,0x00000000ff9104c0,0x00000000ff980000)
+    Metaspace       used 3504K, capacity 4496K, committed 4864K, reserved 1056768K
+    class space    used 379K, capacity 388K, committed 512K, reserved 1048576K
+*/
+
+
 
 
     //方法区。jdk8中元数据。没有永久代  -XX:MaxPermSize=5M  失效
    // -Xms20m -Xmx20m   -XX:MaxMetaspaceSize=24m -XX:+PrintGCDetails
-    //    // -Xms20m -Xmx20m   -XX:MaxMetaspaceSize=30m -XX:+PrintGCDetails  -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=E:\Java\dump
-   public static void main(String[] args) {
+    // -Xms20m -Xmx20m   -XX:MaxMetaspaceSize=30m -XX:+PrintGCDetails  -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=E:\Java\dump
+/*   public static void main(String[] args) {
        int i=0;
         while (true) {
             i++;
@@ -159,7 +182,7 @@ public class OutMemoryError {
         }
 
 
-    }
+    }*/
 
 /*
     Metaspace       used 30145K, capacity 30292K, committed 30720K, reserved 1077248K    方法code
