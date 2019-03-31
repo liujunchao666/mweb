@@ -76,6 +76,60 @@ public class TestClass {
 指令一共1个字节的大小 256 最大指令数目
 
 
+do{
+ pc寄存器+1
+ 读取操作码
+ if(存在操作数){
+ 执行操作码+操作数
+ }
+}
+
+byte char short boolean 转换int 处理
+
+加载存储指令
+栈帧中的局部变量和操作数栈来回转换 load store
+常量加载到操作数栈  push
+
+运算指令
+add sub mul div 位移 比较
+
+类型转换
+_2_
+对象创建和访问
+new
+
+操作数栈管理
+
+pop dup  swap
+
+控制转移
+if
+
+方法调用和返回
+
+invokevitual
+invoke interface
+invokespecial
+invokestatic
+
+异常处理
+athrow
+同步指令
+管程 monitor支持
+
+管程是锁
+monitorenter
+monexit
+
+
+class文件 平台中立不依赖操作系统
+
+
+
+
+
+
+
 */
 
 
@@ -91,7 +145,7 @@ public cn.restlibs.jvm.jvmload.TestClass();
         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
         4: return
         LineNumberTable:
-        line 3: 0
+        line 3: 0u
         LocalVariableTable:
         Start  Length  Slot  Name   Signature
         0       5     0  this   Lcn/restlibs/jvm/jvmload/TestClass;
