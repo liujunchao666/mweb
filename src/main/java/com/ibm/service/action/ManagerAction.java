@@ -30,7 +30,7 @@ public class ManagerAction {
 		String price = 		productService.getPrice();
 		System.out.print(address +""+price);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
