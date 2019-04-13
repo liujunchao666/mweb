@@ -1,13 +1,14 @@
-package cn.restlibs.rabbitmq.routing;
+package cn.restlibs.rabbitmq.shuxin;
 
 
 import cn.restlibs.rabbitmq.ConnectionUtil;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.MessageProperties;
 
 public class Send {
 
-    private final static String EXCHANGE_NAME = "test_exchange_direct";
+    private final static String EXCHANGE_NAME = "test_exchange_fanout";
 
     public static void main(String[] argv) throws Exception {
         // 获取到连接以及mq通道
@@ -15,17 +16,17 @@ public class Send {
         Channel channel = connection.createChannel();
 
         // 声明exchange
-        channel.exchangeDeclare(EXCHANGE_NAME, "direct");
+        channel.exchangeDeclare(EXCHANGE_NAME, "fanout",false);
 
         // 消息内容
         String message = "Hello World!";
-        channel.basicPublish(EXCHANGE_NAME, "key", null, message.getBytes());
+       channel.basicPublish(EXCHANGE_NAME, "", MessageProperties.MINIMAL_PERSISTENT_BASIC, message.getBytes());
+        //  channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes());
+
         System.out.println(" [x] Sent '" + message + "'");
 
         channel.close();
         connection.close();
     }
-
-
-
 }
+

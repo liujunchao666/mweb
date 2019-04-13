@@ -40,12 +40,5 @@ public class Send {
     }
 
 
-  /*  一个queue绑定到多个exchange上
-    最近学习rabbitmq，想到个问题：
-    一个exchange绑定1000个queue，和5个exchange，每个exchange绑定200个queue，这两种设计，在消息转发的效率上，会有差别吗
-
-    default 交换机 队列怎么解绑
-
-*/
 
 }

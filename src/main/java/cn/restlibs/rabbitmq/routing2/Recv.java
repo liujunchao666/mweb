@@ -46,11 +46,4 @@ public class Recv {
 }
 
 
-/*
-通过key发送到队列里了 比如队列1包括key key4
-发送key。通过key发送到了队列1了。所有key key4都发送到队列1
-此时解绑队列1 key。仍然可以接受到信息。
-
-交换机 key 队列
-*/
 
